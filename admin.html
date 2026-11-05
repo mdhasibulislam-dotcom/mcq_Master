@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0f766e"><title>MCQ Master · Admin</title><link rel="stylesheet" href="admin.css"></head>
+<body><div class="app">
+<header class="top"><div class="who"><div class="logo">M</div><div><h1>MCQ Master Admin</h1><p id="adminName">Loading…</p></div></div><button class="btn btn-sm" id="profileBtn"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Profile</button></header>
+
+<nav class="nav">
+ <button class="active" data-view="overview"><svg class="i" viewBox="0 0 24 24"><path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z"/></svg>Overview</button>
+ <button data-view="questions"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 2.5-3 4M12 17.5h.01"/></svg>Questions</button>
+ <button data-view="exams"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 7v5l3 2"/></svg>Exams</button>
+ <button data-view="users"><svg class="i" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg>Users</button>
+</nav>
+
+<main class="main">
+<section id="overview" class="view">
+ <div class="sec-head"><div><h2>Overview</h2><p class="sub">তোমার MCQ bank-এর এক নজর</p></div></div>
+ <div class="stats">
+  <div class="stat"><small>Questions</small><b id="statQ">—</b></div>
+  <div class="stat"><small>Subjects</small><b id="statS">—</b></div>
+  <div class="stat"><small>Mock exams</small><b id="statE">—</b></div>
+  <div class="stat"><small>Users</small><b id="statU">—</b></div>
+ </div>
+ <div class="two">
+  <div class="card"><h3>Questions by subject</h3><div id="subjectBars"></div></div>
+  <div class="card"><div class="sec-head" style="margin:0 0 6px"><h3 style="margin:0">Recent questions</h3><button class="btn btn-sm" data-jump="questions">See all</button></div><div id="recent"></div></div>
+ </div>
+</section>
+
+<section id="questions" class="view hidden">
+ <div class="sec-head"><h2>Question bank</h2><div class="acts"><button class="btn" id="importBtn">Import</button><button class="btn btn-primary" id="newQuestion">+ Add question</button></div></div>
+ <div class="toolbar"><div class="fg">
+  <label>Search<input id="searchQ" placeholder="Question, subject or tag"></label>
+  <label>Subject<select id="filterSubject"><option value="">All subjects</option></select></label>
+ </div></div>
+ <div id="questionList"></div>
+</section>
+
+<section id="exams" class="view hidden">
+ <div class="sec-head"><div><h2>Mock exams</h2><p class="sub">প্রশ্ন random বাছাই হয়ে exam তৈরি হবে</p></div></div>
+ <div class="card"><div class="fg">
+  <label>Exam name<input id="examName" placeholder="e.g. Physics Chapter 1"></label>
+  <label>Subject<select id="examSubject"><option value="">Mixed subjects</option></select></label>
+  <label>Question count<input id="examCount" type="number" min="1" value="20" inputmode="numeric"></label>
+  <label>Time (minutes)<input id="examMinutes" type="number" min="1" value="20" inputmode="numeric"></label>
+ </div><button class="btn btn-primary" id="createExam">Create mock exam</button></div>
+ <div id="examList" class="card" style="margin-top:14px"></div>
+</section>
+
+<section id="users" class="view hidden">
+ <div class="sec-head"><div><h2>Users</h2><p class="sub">Admin role দিতে হয় Supabase SQL Editor থেকে</p></div></div>
+ <div class="card" id="userList"></div>
+</section>
+</main></div>
+
+<div id="questionModal" class="modal hidden"><div class="sheet">
+ <div class="sheet-head"><h2 id="modalTitle">Add question</h2><button class="btn btn-sm" id="closeModal" aria-label="Close">✕</button></div>
+ <form id="questionForm">
+  <label>Question<textarea id="qText" rows="3" required></textarea></label>
+  <div class="fg">
+   <label>Option A<input id="optA" required></label><label>Option B<input id="optB" required></label>
+   <label>Option C<input id="optC" required></label><label>Option D<input id="optD" required></label>
+   <label>Correct answer<select id="qAnswer"><option value="0">A</option><option value="1">B</option><option value="2">C</option><option value="3">D</option></select></label>
+   <label>Subject<input id="qSubject" required placeholder="Physics" list="subjectHints"></label>
+   <label>Difficulty<select id="qDifficulty"><option>Easy</option><option selected>Medium</option><option>Hard</option></select></label>
+   <label>Tag<input id="qTag" placeholder="DU 2025"></label>
+   <label class="wide">Explanation (student উত্তর দেওয়ার পর দেখবে)<textarea id="qExplanation" rows="2"></textarea></label>
+  </div>
+  <datalist id="subjectHints"></datalist>
+  <div class="form-actions"><button class="btn btn-primary" type="submit">Save question</button><button class="btn" type="button" id="cancelModal">Cancel</button></div>
+ </form>
+</div></div>
+<div id="importModal" class="modal hidden"><div class="sheet">
+ <div class="sheet-head"><h2>Bulk import</h2><button class="btn btn-sm" id="closeImport" aria-label="Close">✕</button></div>
+ <p class="sub">CSV ফাইল বেছে নাও, অথবা Excel / Google Sheet থেকে copy করে নিচে paste করো। প্রথম লাইনে কলামের নাম থাকতে হবে।</p>
+ <p class="note">কলাম: text, option_a, option_b, option_c, option_d, answer (A/B/C/D), subject — আর ঐচ্ছিক: difficulty (Easy/Medium/Hard), tag, explanation</p>
+ <div class="acts" style="margin:12px 0"><button class="btn btn-sm" id="csvTemplate" type="button">Download template</button>
+  <label class="btn btn-sm" style="display:inline-block;margin:0;cursor:pointer">Choose CSV file<input id="csvFile" type="file" accept=".csv,.txt,text/csv" class="hidden"></label></div>
+ <label>অথবা এখানে paste করো<textarea id="csvText" rows="5"></textarea></label>
+ <div id="importSummary" class="sub"></div><div id="importPreview"></div>
+ <div class="form-actions"><button class="btn btn-primary" id="importGo" disabled>Import</button><button class="btn" id="cancelImport" type="button">Cancel</button></div>
+</div></div>
+<div id="toast" class="toast"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0"></script>
+<script src="js/supabase-config.js"></script>
+<script src="js/profile.js"></script>
+<script src="js/admin.js"></script>
+<script src="js/bulk-import.js"></script>
+</body></html>

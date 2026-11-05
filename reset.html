@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MCQ Master | Reset password</title>
+<link rel="stylesheet" href="admin.css"></head>
+<body><main style="display:grid;place-items:center;min-height:100vh;padding:16px"><div class="card" style="width:min(420px,100%);padding:24px">
+<h2>Set a new password</h2>
+<p class="sub" id="note">Reset link যাচাই করা হচ্ছে…</p>
+<form id="resetForm" class="hidden">
+  <label>New password<input id="newPass" type="password" minlength="8" autocomplete="new-password" required></label>
+  <label>Confirm password<input id="newPass2" type="password" minlength="8" autocomplete="new-password" required></label>
+  <button class="btn btn-primary" style="width:100%" type="submit">Save password</button>
+</form>
+<p class="sub" style="margin-top:16px"><a href="index.html" style="color:var(--brand)">Back to login</a></p>
+</div></main><div id="toast" class="toast"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0"></script>
+<script src="js/supabase-config.js"></script>
+<script>
+const form=$('#resetForm'),note=$('#note');
+const ready=()=>{form.classList.remove('hidden');note.textContent='নতুন password দাও (কমপক্ষে ৮ অক্ষর)।'};
+if(!window.supabaseClient){note.textContent='Supabase load হয়নি। Internet check করো।'}
+else{
+  supabase.auth.onAuthStateChange((ev)=>{if(ev==='PASSWORD_RECOVERY')ready()});
+  setTimeout(async()=>{const {data}=await supabase.auth.getSession();if(data.session)ready();else if(form.classList.contains('hidden'))note.textContent='Link মেয়াদোত্তীর্ণ বা ভুল। Login পাতা থেকে আবার "Forgot password" চাপো।'},1500);
+  form.onsubmit=async e=>{e.preventDefault();
+    if($('#newPass').value!==$('#newPass2').value)return toast('দুইটা password মেলেনি।','error');
+    const {error}=await supabase.auth.updateUser({password:$('#newPass').value});
+    if(error)return toast(error.message,'error');
+    toast('Password বদলেছে।');await supabase.auth.signOut();setTimeout(()=>location.replace('index.html'),1200)};
+}
+</script></body></html>

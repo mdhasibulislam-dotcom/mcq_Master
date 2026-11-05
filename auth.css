@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap');
+/* Simple education-focused login and registration page */
+.auth-page{min-height:100vh;background:#eef1f5;color:#1d2939;font-family:'Hind Siliguri',system-ui,sans-serif}
+.auth-shell{width:min(960px,100% - 32px);min-height:100vh;margin:auto;display:grid;grid-template-columns:1fr 420px;gap:64px;align-items:center;padding:48px 0}
+.auth-intro{padding:20px 0}
+.brand-mark{width:54px;height:54px;border-radius:12px;background:#0f766e;color:#fff;display:grid;place-items:center;font-size:28px;font-weight:800}
+.eyebrow{margin:28px 0 12px;color:#0f766e;font-size:12px;font-weight:700;letter-spacing:2px}
+.auth-intro h1{font-size:clamp(34px,5vw,52px);line-height:1.12;letter-spacing:-1.5px;margin:0;color:#14213d}
+.auth-intro h1 span{color:#0f766e}
+.intro-copy{font-size:16px;line-height:1.7;color:#667085;max-width:390px}
+.intro-note{margin-top:48px;padding:18px 20px;border-left:4px solid #0f766e;background:#e3f6f3;border-radius:8px;max-width:390px;display:grid;gap:7px}
+.intro-note strong{font-size:14px;color:#0b4f4a}.intro-note span{font-size:13px;line-height:1.6;color:#52657e}
+.auth-panel{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:30px;box-shadow:0 12px 36px rgba(28,48,78,.08)}
+.auth-heading h2{font-size:25px;margin:0 0 7px;color:#14213d}.auth-heading p{font-size:14px;color:#667085;margin:0 0 24px}
+.auth-tabs{display:grid;grid-template-columns:1fr 1fr;gap:5px;background:#f1f4f8;padding:5px;border-radius:9px;margin-bottom:22px}
+.auth-tab{border:0;border-radius:7px;padding:11px 8px;background:transparent;color:#667085;font-weight:600}
+.auth-tab.active{background:#fff;color:#0f766e;box-shadow:0 1px 4px #10182818}
+.auth-form{display:grid;gap:9px}.auth-form label{font-size:13px;font-weight:600;color:#344054;margin:7px 0 0}
+.auth-form input{width:100%;min-width:0;padding:12px 13px;border:1px solid #d0d5dd;border-radius:8px;background:#fff;color:#101828;font-size:14px;outline:none}
+.auth-form input:focus{border-color:#0f766e;box-shadow:0 0 0 3px #0f766e22}
+.auth-submit{margin-top:12px;padding:13px;border:0;border-radius:8px;background:#0f766e;color:#fff;font-weight:700;font-size:15px}
+.auth-submit:hover{background:#0b4f4a}.auth-submit:disabled{opacity:.6;cursor:not-allowed}
+.name-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.optional{font-weight:400;color:#98a2b3}
+.is-hidden{display:none!important}
+.auth-message{display:none;margin:0 0 14px;padding:11px 12px;border-radius:8px;font-size:13px;line-height:1.5}
+.auth-message.show{display:block}.auth-message.error{background:#fff1f0;color:#b42318;border:1px solid #fecdca}.auth-message.success{background:#ecfdf3;color:#027a48;border:1px solid #abefc6}.auth-message.info{background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe}
+.auth-footnote{font-size:11px;line-height:1.6;color:#98a2b3;margin:20px 0 0}
+@media(max-width:760px){.auth-shell{grid-template-columns:1fr;gap:22px;padding:24px 0;max-width:480px}.auth-intro{padding:8px 0}.eyebrow{margin-top:18px}.auth-intro h1{font-size:36px}.intro-note{margin-top:22px}.auth-panel{padding:23px}}
+@media(max-width:380px){.auth-panel{padding:18px}.name-grid{grid-template-columns:1fr}}
+.auth-form label{display:block}
+.link-btn{background:none;border:0;color:#0f766e;font-size:13px;padding:6px 0;text-align:left;text-decoration:underline}
